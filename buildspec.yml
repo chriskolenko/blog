@@ -1,7 +1,7 @@
 version: 0.2
 
 phases:
-  login:
+  pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
@@ -15,14 +15,11 @@ phases:
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-  push:
+  post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-  scan:
-    commands:
       - echo Push completed on `date`
       - echo Scanning the Docker images...
       - aws ecr start-image-scan --repository-name $REPOSITORY_URI --image-id imageTag=$IMAGE_TAG
