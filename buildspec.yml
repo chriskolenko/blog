@@ -22,4 +22,4 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Push completed on `date`
       - echo Scanning the Docker images...
-      - aws ecr start-image-scan --repository-name $REPOSITORY_URI --image-id imageTag=$IMAGE_TAG
+      - aws ecr start-image-scan --region $AWS_DEFAULT_REGION --repository-name chriskolenko/blog --image-id imageTag=${IMAGE_TAG}
